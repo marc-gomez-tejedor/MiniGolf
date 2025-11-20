@@ -36,7 +36,7 @@ public class ArrowIndicator : MonoBehaviour
     /// </summary>
     private void Awake()
     {
-        Cursor.visible = false;
+        //Cursor.visible = false;
         initialScale = arrowTail.localScale;
         thicknessMultiplier = initialScale.z * thicknessMultiplier;    
     }
