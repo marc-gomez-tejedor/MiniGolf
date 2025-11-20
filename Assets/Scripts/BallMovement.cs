@@ -47,7 +47,7 @@ public class BallMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E))
         {
             if (swapDirection)
             {

@@ -34,25 +34,33 @@ public class LevelManager : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R))
         {
             StartLevel();
         }
-        else if (Input.GetKey(KeyCode.Alpha1))
+        else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeLevel(1);
         }
-        else if (Input.GetKey(KeyCode.Alpha2))
+        else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             ChangeLevel(2);
         }
-        else if (Input.GetKey(KeyCode.Alpha3))
+        else if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ChangeLevel(3);
         }
-        else if (Input.GetKey(KeyCode.Alpha4))
+        else if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ChangeLevel(4);
+        }
+        else if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            NextLevel();
+        }
+        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            PreviousLevel();
         }
     }
     public void ChangeLevel(int id)
@@ -69,6 +77,17 @@ public class LevelManager : MonoBehaviour
         else
         {
             ChangeLevel(CurrentLevel.levelId+1);
+        }
+    }
+    public void PreviousLevel()
+    {
+        if (CurrentLevel.levelId-2 < 0)
+        {
+            ChangeLevel(1);
+        }
+        else
+        {
+            ChangeLevel(CurrentLevel.levelId-1);
         }
     }
     public void StartLevel()
