@@ -18,7 +18,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     float min = 10f;
     [SerializeField]
-    LayerMask raycastLayer;
+    LayerMask raycastLayer, ballRayCastLayer;
 
     Vector3 A, B;
     bool casting = false, canCast = true;
@@ -72,7 +72,8 @@ public class BallMovement : MonoBehaviour
         {
             canCast = false;
         }
-        if (Input.GetMouseButtonDown(0))
+        ///PREVIOUS
+        /*if (Input.GetMouseButtonDown(0))
         {
             A = CastRay();
             casting = true;
@@ -94,7 +95,37 @@ public class BallMovement : MonoBehaviour
         else
         {
             casting = false;
+        }*/
+
+        ///NEW
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (Physics.Raycast(ray, out RaycastHit hitInfo, Mathf.Infinity, ballRayCastLayer))
+            {
+                A = transform.position;
+                casting = true;
+            }
         }
+        else if (Input.GetMouseButton(0) && casting && canCast)
+        {
+            arrow.ShowArrow();
+            B = CastRay();
+            float magnitude;
+            Vector3 d = GetForce(out magnitude);
+            arrow.UpdateArrow(d.normalized, magnitude / maxReleaseDistance);
+        }
+        else if (Input.GetMouseButtonUp(0) && casting && canCast)
+        {
+            casting = false;
+            Release();
+            arrow.HideArrow();
+        }
+        else
+        {
+            casting = false;
+        }
+
     }
 
     private void FixedUpdate()
