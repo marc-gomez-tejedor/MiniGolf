@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class CountDown : MonoBehaviour
 {
@@ -12,7 +13,19 @@ public class CountDown : MonoBehaviour
     TMP_Text UITimerText;
 
     [SerializeField]
+    Image UISlider;
+
+    [SerializeField]
     TMP_Text UIScoreText;
+
+
+    [SerializeField]
+    AudioSource levelSong;
+
+    private void Awake()
+    {
+        ResetTime();
+    }
 
     void Update()
     {
@@ -22,6 +35,7 @@ public class CountDown : MonoBehaviour
             OnTimerEnd.Invoke();
         }
         UITimerText.text = Mathf.Max(0,currentTime).ToString();
+        UISlider.transform.localScale = new Vector2(Mathf.Lerp(0,1,timer/20f),1f);
         timer -= Time.deltaTime;
     }
 
@@ -30,5 +44,11 @@ public class CountDown : MonoBehaviour
         Debug.Log(score);
         score++;
         UIScoreText.text = score.ToString();
+    }
+
+    public void ResetTime()
+    {
+        timer = 20f;
+        levelSong.Play();
     }
 }
