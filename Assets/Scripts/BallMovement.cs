@@ -45,6 +45,18 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     List<Transform> LevelCameraSpawners = default;
 
+    int nPuts = 0;
+    [SerializeField]
+    Material goldenMat;
+    [SerializeField]
+    Material silverMat;
+    [SerializeField]
+    Material bronzeMat;
+    [SerializeField]
+    Material defaultMat;
+    [SerializeField]
+    Renderer ballRender;
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.E))
@@ -67,6 +79,10 @@ public class BallMovement : MonoBehaviour
         if (timer >= stopThreshold)
         {
             canCast = true;
+            if (nPuts == 0) ballRender.material = goldenMat;
+            else if (nPuts == 1) ballRender.material = silverMat;
+            else if(nPuts == 2) ballRender.material = bronzeMat;
+            else ballRender.material = defaultMat;
         }
         else
         {
@@ -206,6 +222,7 @@ public class BallMovement : MonoBehaviour
 
     void Release()
     {
+        nPuts++;
         float magnitude;
         Vector3 d = GetForce(out magnitude);
         rb.linearVelocity = magnitude * maxReleaseSpeed * d.normalized;
@@ -214,6 +231,8 @@ public class BallMovement : MonoBehaviour
 
     public void StartLevel(int id)
     {
+        nPuts = 0;
+        ballRender.material = goldenMat;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = LevelPlayerSpawners[id-1].position;
@@ -224,6 +243,8 @@ public class BallMovement : MonoBehaviour
 
     public void StartLevel(Transform ballPos, Transform cameraPos)
     {
+        nPuts = 0;
+        ballRender.material = goldenMat;
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
         transform.position = ballPos.position;
