@@ -60,30 +60,42 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
 
             yield return null;
         }
+        if (elapsedTime >= _moveTime && !startingAnimation)
+        {
+            buttonGO.gameObject.SetActive(false);
+        }
     }
 
     public void OnPointerEnter(PointerEventData eventData)
     {
         eventData.selectedObject = buttonGO.gameObject;
-        //StartCoroutine(MoveCard(true));
+        buttonGO.gameObject.SetActive(true);
+        Debug.Log($"2");
+        StartCoroutine(MoveCard(true));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         eventData.selectedObject = null;
-        //StartCoroutine(MoveCard(false));
+
+        Debug.Log($"3");
+        StartCoroutine(MoveCard(false));
     }
 
     public void OnSelect(BaseEventData eventData)
     {
         //button.enabled = true;
         //bg.enabled = true;
-        StartCoroutine(MoveCard(true));
+
+        Debug.Log($"4");
+        //StartCoroutine(MoveCard(true));
     }
 
     public void OnDeselect(BaseEventData eventData)
     {
-        StartCoroutine(MoveCard(false));
+
+        Debug.Log($"5");
+        //StartCoroutine(MoveCard(false));
         //button.enabled = false;
         //bg.enabled = false;
     }

@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.Events;
 
 [Serializable]
 public struct Level
@@ -9,13 +11,15 @@ public struct Level
     public GameObject ColliderSet;
     public Transform cameraStartingPosition;
     public Transform ballStartingPosition;
-    //public int ThreeStarsMax;
-    //public int TwoStarsMax;
-    //public int OneStarsMax;
+    public Image flagImg;
+    public Image levelImg;
 }
 
 public class LevelManager : MonoBehaviour
 {
+    public UnityEvent LevelFailed;
+    public UnityEvent LevelCompleted;
+
     [SerializeField]
     List<Level> Levels;
 
@@ -24,11 +28,30 @@ public class LevelManager : MonoBehaviour
 
     Level CurrentLevel;
 
-    void Start()
+    [SerializeField]
+    Sprite grayFlag;
+    [SerializeField]
+    Sprite whiteFlag;
+    [SerializeField]
+    Sprite bronzeFlag;
+    [SerializeField]
+    Sprite silverFlag;
+    [SerializeField]
+    Sprite goldFlag;
+
+    [SerializeField]
+    Sprite bWLevel;
+    [SerializeField]
+    Sprite coloredLevel;
+
+    void Awake()
     {
+        int i = 0;
         foreach (Level level in Levels)
         {
             level.ColliderSet.SetActive(false);
+            UpdateLevelUI(i);
+            i++;
         }
         StartLevel(1);
     }
@@ -38,7 +61,7 @@ public class LevelManager : MonoBehaviour
         {
             StartLevel();
         }
-        else if (Input.GetKeyDown(KeyCode.Alpha1))
+        /*else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeLevel(1);
         }
@@ -61,12 +84,103 @@ public class LevelManager : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
             PreviousLevel();
-        }
+        }*/
     }
     public void ChangeLevel(int id)
     {
         CurrentLevel.ColliderSet.SetActive(false);
         StartLevel(id);
+    }
+
+    public void Cleared()
+    {
+        int stars = Math.Max(4 - ball.nPuts, 0);
+        LevelProgress.SetStars(CurrentLevel.levelId, stars);
+        if (CurrentLevel.levelId + 1 <= Levels.Count)
+        {
+            if (LevelProgress.GetStars(CurrentLevel.levelId + 1) == -2)
+            {
+                LevelProgress.SetStars(CurrentLevel.levelId + 1, -1);
+                UpdateLevelUI(CurrentLevel.levelId);  // update also next level's UI
+            }
+        }        
+        UpdateLevelUI();
+        LevelCompleted.Invoke();
+    }
+
+    public void Failed()
+    {
+        /*POINTLESS ATM LevelProgress.SetStars(CurrentLevel.levelId, -1);
+        UpdateLevelUI();*/
+        LevelFailed.Invoke();
+    }
+
+    public void UpdateLevelUI()
+    {
+        int stars = LevelProgress.GetStars(CurrentLevel.levelId);
+        if (stars == -2)
+        {
+            CurrentLevel.flagImg.sprite = grayFlag;
+            CurrentLevel.levelImg.sprite = bWLevel;
+        }
+        else
+        {
+            CurrentLevel.levelImg.sprite = coloredLevel;
+            if (stars == -1)
+            {
+                CurrentLevel.flagImg.sprite = grayFlag;
+            }
+            else if (stars == 0)
+            {
+                CurrentLevel.flagImg.sprite = whiteFlag;
+            }
+            else if (stars == 1)
+            {
+                CurrentLevel.flagImg.sprite = bronzeFlag;
+            }
+            else if (stars == 2)
+            {
+                CurrentLevel.flagImg.sprite = silverFlag;
+            }
+            else if (stars == 3)
+            {
+                CurrentLevel.flagImg.sprite = goldFlag;
+            }
+        }
+    }
+
+    public void UpdateLevelUI(int id)  // id of the list not levelId
+    {
+        int stars = LevelProgress.GetStars(Levels[id].levelId);  // same as id+1 really
+        if (stars == -2)
+        {
+            Levels[id].flagImg.sprite = grayFlag;
+            Levels[id].levelImg.sprite = bWLevel;
+        }
+        else
+        {
+            Levels[id].levelImg.sprite = coloredLevel;
+            if (stars == -1)
+            {
+                Levels[id].flagImg.sprite = grayFlag;
+            }
+            else if (stars == 0)
+            {
+                Levels[id].flagImg.sprite = whiteFlag;
+            }
+            else if (stars == 1)
+            {
+                Levels[id].flagImg.sprite = bronzeFlag;
+            }
+            else if (stars == 2)
+            {
+                Levels[id].flagImg.sprite = silverFlag;
+            }
+            else if (stars == 3)
+            {
+                Levels[id].flagImg.sprite = goldFlag;
+            }
+        }
     }
     public void NextLevel()
     {

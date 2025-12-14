@@ -45,7 +45,7 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     List<Transform> LevelCameraSpawners = default;
 
-    int nPuts = 0;
+    public int nPuts = 0;
     [SerializeField]
     Material goldenMat;
     [SerializeField]
@@ -60,7 +60,7 @@ public class BallMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        /*if (Input.GetKeyDown(KeyCode.E))
         {
             if (swapDirection)
             {
@@ -70,7 +70,7 @@ public class BallMovement : MonoBehaviour
             {
                 swapDirection = true;
             }
-        }
+        }*/
         if (rb.linearVelocity.magnitude > 0.1f)
         {
             timer = 0f;
