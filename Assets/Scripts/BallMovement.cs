@@ -240,6 +240,7 @@ public class BallMovement : MonoBehaviour
         transform.rotation = Quaternion.identity;
         mainCamera.transform.position = LevelCameraSpawners[id - 1].position;
         mainCamera.transform.rotation = LevelCameraSpawners[id - 1].rotation;
+        gameObject.SetActive(true);
     }
 
     public void StartLevel(Transform ballPos, Transform cameraPos)
@@ -255,5 +256,6 @@ public class BallMovement : MonoBehaviour
         arrow.HideArrow();
         canCast = true;
         casting = false;
+        gameObject.SetActive(true);
     }
 }

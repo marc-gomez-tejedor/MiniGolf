@@ -25,4 +25,12 @@ public static class LevelProgress
             PlayerPrefs.Save();
         }
     }
+    public static void ResetStars()
+    {
+        for (int i = 1; i < 21; i++) 
+        {
+            PlayerPrefs.SetInt($"level_stars_{i}", -2);
+        }
+        PlayerPrefs.SetInt($"level_stars_{1}", -1);
+    }
 }

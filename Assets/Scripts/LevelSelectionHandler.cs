@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -22,10 +23,24 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
     Image button;
     [SerializeField]
     Image bg; 
+    [SerializeField]
+    int id; 
+
+    [SerializeField]
+    LevelManager lm; 
+
+    [SerializeField]
+    GameObject menu;
+
+    [SerializeField]
+    GameObject hoverObj;
+
+    [SerializeField]
+    CountDown cd;
 
     private void Start()
     {
-        _startPos = buttonGO.transform.position;
+        _startPos = buttonGO.transform.localPosition;
         _startScale = buttonGO.transform.localScale;
     }
 
@@ -55,7 +70,7 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
 
             Debug.Log($"{lerpedPos}, {(elapsedTime)})");
 
-            buttonGO.transform.position = lerpedPos;
+            //buttonGO.transform.localPosition = lerpedPos;
             buttonGO.transform.localScale = lerpedScale;
 
             yield return null;
@@ -68,10 +83,13 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        eventData.selectedObject = buttonGO.gameObject;
-        buttonGO.gameObject.SetActive(true);
-        Debug.Log($"2");
-        StartCoroutine(MoveCard(true));
+        if (LevelProgress.GetStars(id) > -2)
+        {
+            eventData.selectedObject = buttonGO.gameObject;
+            buttonGO.gameObject.SetActive(true);
+            Debug.Log($"2");
+            StartCoroutine(MoveCard(true));
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -79,6 +97,10 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
         eventData.selectedObject = null;
 
         Debug.Log($"3");
+        StartCoroutine(MoveCard(false));
+    }
+    public void End()
+    {
         StartCoroutine(MoveCard(false));
     }
 
@@ -98,5 +120,16 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
         //StartCoroutine(MoveCard(false));
         //button.enabled = false;
         //bg.enabled = false;
+    }
+    public void StartLevel()
+    {
+        if (LevelProgress.GetStars(id) > -2)
+        {
+            lm.StartLevel(id);
+            hoverObj.SetActive(false);
+            menu.SetActive(false);
+            cd.StartTime();
+        }
+
     }
 }

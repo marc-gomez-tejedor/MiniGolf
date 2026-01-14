@@ -61,6 +61,10 @@ public class LevelManager : MonoBehaviour
         {
             StartLevel();
         }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            LevelProgress.ResetStars();
+        }
         /*else if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             ChangeLevel(1);
@@ -206,13 +210,17 @@ public class LevelManager : MonoBehaviour
     }
     public void StartLevel()
     {
+        
         CurrentLevel.ColliderSet.SetActive(true);
         ball.StartLevel(CurrentLevel.ballStartingPosition, CurrentLevel.cameraStartingPosition);
     }
     public void StartLevel(int id)
     {
-        CurrentLevel = Levels[id - 1];
-        CurrentLevel.ColliderSet.SetActive(true);
-        ball.StartLevel(CurrentLevel.ballStartingPosition, CurrentLevel.cameraStartingPosition);
+        if (LevelProgress.GetStars(Levels[id - 1].levelId) > -2)
+        {
+            CurrentLevel = Levels[id - 1];
+            CurrentLevel.ColliderSet.SetActive(true);
+            ball.StartLevel(CurrentLevel.ballStartingPosition, CurrentLevel.cameraStartingPosition);
+        }
     }
 }
