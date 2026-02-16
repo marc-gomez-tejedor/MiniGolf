@@ -40,8 +40,8 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
 
     private void Start()
     {
-        _startPos = buttonGO.transform.localPosition;
-        _startScale = buttonGO.transform.localScale;
+        _startPos = button.transform.localPosition;
+        _startScale = button.transform.localScale;
     }
 
     IEnumerator MoveCard(bool startingAnimation)
@@ -65,19 +65,19 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
                 endPosition = _startPos;
                 endScale = _startScale;
             }
-            Vector3 lerpedPos = Vector3.Lerp(buttonGO.transform.position, endPosition, (elapsedTime / _moveTime));
-            Vector3 lerpedScale = Vector3.Lerp(buttonGO.transform.localScale, endScale, (elapsedTime / _moveTime));
+            Vector3 lerpedPos = Vector3.Lerp(button.transform.position, endPosition, (elapsedTime / _moveTime));
+            Vector3 lerpedScale = Vector3.Lerp(button.transform.localScale, endScale, (elapsedTime / _moveTime));
 
             Debug.Log($"{lerpedPos}, {(elapsedTime)})");
 
             //buttonGO.transform.localPosition = lerpedPos;
-            buttonGO.transform.localScale = lerpedScale;
+            button.transform.localScale = lerpedScale;
 
             yield return null;
         }
         if (elapsedTime >= _moveTime && !startingAnimation)
         {
-            buttonGO.gameObject.SetActive(false);
+            //button.gameObject.SetActive(false);
         }
     }
 
@@ -88,7 +88,7 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
         {
             Debug.Log(true);
             eventData.selectedObject = buttonGO.gameObject;
-            buttonGO.gameObject.SetActive(true);
+            //buttonGO.gameObject.SetActive(true);
             Debug.Log($"2");
             StartCoroutine(MoveCard(true));            
         }
@@ -128,6 +128,7 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
     {
         if (LevelProgress.GetStars(id) > -2)
         {
+            button.transform.localScale = _startScale;
             lm.StartLevel(id);
             hoverObj.SetActive(false);
             menu.SetActive(false);

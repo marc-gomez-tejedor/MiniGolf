@@ -25,6 +25,7 @@ public class CountDown : MonoBehaviour
     AudioSource levelSong;
 
     bool running = false;
+    bool playing = false;
 
 
     private void Awake()
@@ -52,6 +53,10 @@ public class CountDown : MonoBehaviour
     }
     public void PauseResume()
     {
+        if (!playing)
+        {
+            return;
+        }
         if (running)
         {
             Pause.Invoke();
@@ -75,19 +80,35 @@ public class CountDown : MonoBehaviour
     {
         timer = 20f;
         levelSong.Play();
+        playing = true;
+        ResumeTime();
     }
 
     public void StartTime()
     {
         ResetTime();
-        running = true;
+        ResumeTime();
     }
     public void ResumeTime()
     {
         running = true;
+        UnfreezeTime();
+    }
+    public void UnfreezeTime()
+    {
+        Time.timeScale = 1f;
     }
     public void PauseTime()
     {
         running = false;
+        FreezeTime();
+    }
+    public void FreezeTime()
+    {
+        Time.timeScale = 0f;
+    }
+    public void EndLevel()
+    {
+        playing = false;
     }
 }
