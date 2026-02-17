@@ -31,6 +31,8 @@ public class CountDown : MonoBehaviour
     private void Awake()
     {
         ResetTime();
+        running = false;
+        playing = false;
     }
 
     void Update()
