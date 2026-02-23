@@ -40,9 +40,18 @@ public class LevelManager : MonoBehaviour
     Sprite goldFlag;
 
     [SerializeField]
+    Sprite bronzeMedal;
+    [SerializeField]
+    Sprite silverMedal;
+    [SerializeField]
+    Sprite goldMedal;
+
+    [SerializeField]
     Sprite bWLevel;
     [SerializeField]
     Sprite coloredLevel;
+
+    public Image medalImg;
 
     void Awake()
     {
@@ -125,6 +134,7 @@ public class LevelManager : MonoBehaviour
         if (stars == -2)
         {
             CurrentLevel.flagImg.sprite = grayFlag;
+            
             CurrentLevel.levelImg.sprite = bWLevel;
         }
         else
@@ -132,23 +142,30 @@ public class LevelManager : MonoBehaviour
             CurrentLevel.levelImg.sprite = coloredLevel;
             if (stars == -1)
             {
-                CurrentLevel.flagImg.sprite = grayFlag;
+                CurrentLevel.flagImg.sprite = whiteFlag;
             }
             else if (stars == 0)
             {
-                CurrentLevel.flagImg.sprite = whiteFlag;
+                CurrentLevel.flagImg.sprite = bronzeFlag;
+                medalImg.sprite = bronzeMedal;
             }
             else if (stars == 1)
             {
                 CurrentLevel.flagImg.sprite = bronzeFlag;
+                medalImg.sprite = bronzeMedal;
+
             }
             else if (stars == 2)
             {
                 CurrentLevel.flagImg.sprite = silverFlag;
+                medalImg.sprite = silverMedal;
+
             }
             else if (stars == 3)
             {
                 CurrentLevel.flagImg.sprite = goldFlag;
+                medalImg.sprite = goldMedal;
+
             }
         }
     }
@@ -166,7 +183,7 @@ public class LevelManager : MonoBehaviour
             Levels[id].levelImg.sprite = coloredLevel;
             if (stars == -1)
             {
-                Levels[id].flagImg.sprite = grayFlag;
+                Levels[id].flagImg.sprite = whiteFlag;
             }
             else if (stars == 0)
             {
