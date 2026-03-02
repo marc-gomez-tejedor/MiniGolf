@@ -39,7 +39,7 @@ public class CountDown : MonoBehaviour
             PauseResume();
         }
         float currentTime = Mathf.Ceil(timer);
-        if (currentTime <= 0)
+        if (currentTime <= 0 && playing)
         {
             OnTimerEnd.Invoke();
         }
