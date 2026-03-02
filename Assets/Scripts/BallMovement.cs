@@ -57,6 +57,9 @@ public class BallMovement : MonoBehaviour
     [SerializeField]
     Renderer ballRender;
 
+    [SerializeField]
+    LayerMask wallMask;
+
 
     void Update()
     {
@@ -228,6 +231,7 @@ public class BallMovement : MonoBehaviour
         Vector3 d = GetForce(out magnitude);
         rb.linearVelocity = magnitude * maxReleaseSpeed * d.normalized;
         Debug.DrawLine(A, A + maxReleaseDistance * d.normalized, Color.red, 1f);
+        CustomAudioPlayer.Instance.PlayAudio("ballHit");
     }
 
     public void StartLevel(int id)

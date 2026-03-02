@@ -56,6 +56,10 @@ public class LevelManager : MonoBehaviour
     void Awake()
     {
         int i = 0;
+        if (LevelProgress.GetStars(1) == -2)
+        {
+            LevelProgress.ResetStars();
+        }
         foreach (Level level in Levels)
         {
             level.ColliderSet.SetActive(false);
@@ -73,6 +77,7 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.U))
         {
             LevelProgress.ResetStars();
+            UpdateLevelUI();
         }
         /*else if (Input.GetKeyDown(KeyCode.Alpha1))
         {

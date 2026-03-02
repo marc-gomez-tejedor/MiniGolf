@@ -20,19 +20,16 @@ public class CountDown : MonoBehaviour
     [SerializeField]
     TMP_Text UIScoreText;
 
-
-    [SerializeField]
-    AudioSource levelSong;
-
     bool running = false;
     bool playing = false;
 
 
     private void Awake()
     {
-        ResetTime();
+        //ResetTime();
         running = false;
         playing = false;
+        CustomAudioPlayer.Instance.PlayAudio("menu");
     }
 
     void Update()
@@ -81,7 +78,7 @@ public class CountDown : MonoBehaviour
     public void ResetTime()
     {
         timer = 20f;
-        levelSong.Play();
+        CustomAudioPlayer.Instance.PlayAudio("level");
         playing = true;
         ResumeTime();
     }

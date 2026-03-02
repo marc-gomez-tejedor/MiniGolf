@@ -71,6 +71,7 @@ public class LevelSelectionHandler : MonoBehaviour, IPointerEnterHandler, IPoint
         Debug.Log($"id: {id}");
         if (LevelProgress.GetStars(id) > -2)
         {
+            CustomAudioPlayer.Instance.PlayAudio("hoverUI");
             Debug.Log(true);
             eventData.selectedObject = buttonGO.gameObject;
             //buttonGO.gameObject.SetActive(true);

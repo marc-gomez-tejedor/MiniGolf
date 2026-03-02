@@ -49,11 +49,14 @@ public class ScaleImgOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExit
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        CustomAudioPlayer.Instance.PlayAudio("hoverUI");
+        //eventData.selectedObject = button.gameObject;
         StartCoroutine(MoveCard(true));
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
+        //eventData.selectedObject = null;
         StartCoroutine(MoveCard(false));
     }
     public void End()

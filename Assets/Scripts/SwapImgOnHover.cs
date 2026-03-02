@@ -21,6 +21,7 @@ public class SwapImgOnHover : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnPointerEnter(PointerEventData eventData)
     {
+        CustomAudioPlayer.Instance.PlayAudio("hoverUI");
         img.sprite = hoverImg;
     }
 
