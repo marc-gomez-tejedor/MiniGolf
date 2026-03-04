@@ -231,7 +231,9 @@ public class BallMovement : MonoBehaviour
         Vector3 d = GetForce(out magnitude);
         rb.linearVelocity = magnitude * maxReleaseSpeed * d.normalized;
         Debug.DrawLine(A, A + maxReleaseDistance * d.normalized, Color.red, 1f);
-        CustomAudioPlayer.Instance.PlayAudio("ballHit");
+        float m = rb.linearVelocity.magnitude / 17.42f;
+        CustomAudioPlayer.Instance.PlayAudio("ballHit", m);
+        //0-17.42;
     }
 
     public void StartLevel(int id)

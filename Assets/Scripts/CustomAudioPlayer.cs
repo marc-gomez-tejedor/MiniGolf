@@ -19,9 +19,21 @@ public class CustomAudioPlayer : MonoBehaviour
     public AudioClip hoverUI;
     public AudioClip clickUI;
 
+    float startmag;
+
     void Awake()
     {
         Instance = this;
+        startmag = ballSFX.volume;
+    }
+    public void PlayAudio(string audio, float magnitude)
+    {
+        if (audio == "ballHit")
+        {
+            ballSFX.clip = ballHit;
+            ballSFX.volume = startmag * magnitude;
+            ballSFX.Play();
+        }
     }
     public void PlayAudio(string audio)
     {
